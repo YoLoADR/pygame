@@ -36,19 +36,20 @@ while running:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
                 print("Left arrow is pressed")
-                playerX_change = -0.3
+                playerX_change = -3
             if event.key == pygame.K_RIGHT:
                 print("Right arrow is pressed")
-                playerX_change = 0.3
+                playerX_change = 3
 
         if event.type == pygame.KEYUP:
-            if event.key == pygame.K_UP:
+            if event.key == pygame.K_LEFT and event.key == pygame.K_RIGHT:
                 print("Up arrow is pressed")
-                playerY_change = -0.3
-            if event.key == pygame.K_DOWN:
-                print("Down arrow is pressed")
-                playerY_change = 0.3
+                playerX_change = 0
+
     playerX += playerX_change
-    playerY += playerY_change
+    if playerX <= 0:
+        playerX = 0
+    elif playerX >= 736:
+        playerX = 736
     player(playerX, playerY)
     pygame.display.update()
