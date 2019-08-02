@@ -22,12 +22,22 @@ playerY = 480
 playerX_change = 0
 playerY_change = 0
 
-# Player
+# Enemy
 enemyImg = pygame.image.load('enemy.png')
 enemyX = random.randint(0, 800)
 enemyY = random.randint(50, 150)
 enemyX_change = 1
 enemyY_change = 40
+
+# Bullet
+# Ready  - You can't see the bullet on the screen
+# Fire - The bullet is currently moving
+bulletImg = pygame.image.load('bullet.png')
+bulletX = 0
+bulletY = 480
+bulletX_change = 0
+bulletY_change = 10
+bullet_state = "ready"
 
 
 def player(x, y):
@@ -36,6 +46,12 @@ def player(x, y):
 
 def enemy(x, y):
     screen.blit(enemyImg, (x, y))
+
+
+def fire_bullet(x, y):
+    global bullet_state
+    bullet_state = "fire"
+    screen.blit(bulletImg, (x + 16, y + 10))
 
 
 # Game lopp
@@ -56,6 +72,9 @@ while running:
             if event.key == pygame.K_RIGHT:
                 print("Right arrow is pressed")
                 playerX_change = 3
+            if event.key == pygame.K_SPACE:
+                print("Space  is pressed")
+                fire_bullet(playerX, bulletY)
 
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT and event.key == pygame.K_RIGHT:
@@ -75,6 +94,10 @@ while running:
     elif enemyX >= 736:
         enemyX_change = -1
         enemyY += enemyY_change
+    # Bullet mouvement
+    if bullet_state is "fire":
+        fire_bullet(playerX, bulletY)
+        bulletY -= bulletY_change
 
     player(playerX, playerY)
     enemy(enemyX, enemyY)
